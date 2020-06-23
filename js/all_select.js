@@ -2,12 +2,43 @@
 document.addEventListener(
   'DOMContentLoaded',
   function () {
+    const allCheck = document.getElementById('select-all');
+    const checkEl = document.querySelectorAll('.js-check');
+    const selectedItemsEl = document.getElementById('selected-items');
+    const appendItem = (child) => {
+      const item = child.parentElement.querySelector('span').cloneNode(true);
+      selectedItemsEl.appendChild(item);
+    };
+
     // 全選択をクリックしたときのイベントをセットします
-    const allRight = document.querySelector('.js-item-to-right-all');
-    allRight.addEventListener('click', () => {
-      console.log('click');
-    });
+    allCheck.onchange = () => {
+      if (allCheck.checked === true) {
+        checkEl.forEach((check) => (check.checked = true));
+        checkEl.forEach((check) => {
+          appendItem(check);
+        });
+      } else {
+        checkEl.forEach((check) => (check.checked = false));
+      }
+    };
+
     // 各アイテムをクリックしたときのイベントをセットします
+    checkEl.forEach((check) =>
+      check.addEventListener('click', () => {
+        const checkedEl = document.querySelectorAll(
+          '.js-check[type="checkbox"]:checked'
+        );
+        if (checkEl.length === checkedEl.length) {
+          allCheck.checked = true;
+        } else {
+          allCheck.checked = false;
+        }
+
+        if (check.checked === true) {
+          appendItem(check);
+        }
+      })
+    );
   },
   false
 );

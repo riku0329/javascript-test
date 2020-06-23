@@ -4,7 +4,29 @@ document.addEventListener(
   () => {
     // 取得した要素を配列に一旦変換して処理を行った方が楽にできます
     const noneSelectEl = document.getElementById('none-selected-items');
+    const slideToRight = document.querySelector('.js-item-to-right');
+    const selectedEl = document.getElementById('selected-items');
+    const op = document.createElement('option');
+    const items = [];
 
+    noneSelectEl.onchange = (e) => {
+      items.push(noneSelectEl.value);
+      const select = noneSelectEl.options[noneSelectEl.selectedIndex].text;
+      console.log(select);
+      console.log(items);
+    };
+
+    slideToRight.addEventListener('click', (e) => {
+      e.preventDefault();
+      items.map((item) => {
+        op.innerHTML = `
+          ${item}
+        `;
+        console.log(item);
+        selectedEl.appendChild(op);
+      });
+      noneSelectEl.getAttribute('selected', false);
+    });
 
     // jQueryと違い要素一つ一つにイベントをセットしたり、値を変更したりしなければなりません
 
