@@ -6,26 +6,35 @@ document.addEventListener(
     const noneSelectEl = document.getElementById('none-selected-items');
     const slideToRight = document.querySelector('.js-item-to-right');
     const selectedEl = document.getElementById('selected-items');
-    const op = document.createElement('option');
-    const items = [];
+    let items = [];
 
-    noneSelectEl.onchange = (e) => {
-      items.push(noneSelectEl.value);
-      const select = noneSelectEl.options[noneSelectEl.selectedIndex].text;
-      console.log(select);
-      console.log(items);
-    };
+    slideToRight.addEventListener('click', () => {
+      const lenght = noneSelectEl.options.length;
 
-    slideToRight.addEventListener('click', (e) => {
-      e.preventDefault();
+      // セレクトされたオプションを配列にいれる
+      for (let i = 0; i < lenght; i++) {
+        const item = noneSelectEl.options[i];
+        if (noneSelectEl.options[i].selected === true) {
+          items.push({
+            // key: item.text.replace('item', ''),
+            text: item.text,
+            value: item.value,
+          });
+          console.log(items);
+          noneSelectEl.options[i].selected = false;
+        }
+      }
+
+      // 右に移動
       items.map((item) => {
-        op.innerHTML = `
-          ${item}
-        `;
-        console.log(item);
-        selectedEl.appendChild(op);
+        let option = document.createElement('option');
+        // let key = Number(item.key) - 1;
+        option.setAttribute('value', item.value);
+        option.innerHTML = item.text;
+        selectedEl.appendChild(option);
+        // noneSelectEl.removeChild(noneSelectEl.options[key]);
       });
-      noneSelectEl.getAttribute('selected', false);
+      items = [];
     });
 
     // jQueryと違い要素一つ一つにイベントをセットしたり、値を変更したりしなければなりません

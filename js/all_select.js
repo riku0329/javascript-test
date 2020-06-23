@@ -5,16 +5,20 @@ document.addEventListener(
     const allCheck = document.getElementById('select-all');
     const checkEl = document.querySelectorAll('.js-check');
     const selectedItemsEl = document.getElementById('selected-items');
+    console.log(checkEl);
+
+    // 要素のコピー
     const appendItem = (child) => {
       const item = child.parentElement.querySelector('span').cloneNode(true);
+      console.log(child);
       selectedItemsEl.appendChild(item);
     };
 
     // 全選択をクリックしたときのイベントをセットします
     allCheck.onchange = () => {
       if (allCheck.checked === true) {
-        checkEl.forEach((check) => (check.checked = true));
         checkEl.forEach((check) => {
+          check.checked = true;
           appendItem(check);
         });
       } else {
