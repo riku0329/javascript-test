@@ -4,6 +4,13 @@ document.addEventListener(
   function () {
     // 「window.scroll」を使ってスクロールさせましょう
     const scrollTopEl = document.querySelector('.scroll-top');
+    
+    scrollTopEl.addEventListener('click', () => {
+      window.scroll({
+        top: 0,
+        behavior: 'smooth',
+      });
+    });
     // ボタンの表示・非表示のアニメーションは不要とします
     document.addEventListener('scroll', () => {
       const currentPos = window.pageYOffset;
