@@ -5,53 +5,63 @@ document.addEventListener(
     // 取得した要素を配列に一旦変換して処理を行った方が楽にできます
     const noneSelectEl = document.getElementById('none-selected-items');
     const slideToRight = document.querySelector('.js-item-to-right');
+    const allSlideToRight = document.querySelector('.js-item-to-right-all');
 
     const selectedEl = document.getElementById('selected-items');
     const slideToLeft = document.querySelector('.js-item-to-left');
-    
+    const allSlideToLeft = document.querySelector('.js-item-to-left-all');
+
     let items = [];
 
     // 右に移動
     slideToRight.addEventListener('click', () => {
-      const lenght = noneSelectEl.options.length;
-
-      // セレクトされたオプションを配列にいれる
-      for (let i = 0; i < lenght; i++) {
-        const item = noneSelectEl.options[i];
-        if (noneSelectEl.options[i].selected === true) {
-          items.push(item);
-          console.log(item);
-          noneSelectEl.options[i].selected = false;
-        }
-      }
-      items.map((item) => {
-        selectedEl.appendChild(item);
-      });
-      items = [];
+      sliedItem(noneSelectEl, selectedEl);
     });
 
+    allSlideToRight.addEventListener('click', () => {
+      allSlideItem(noneSelectEl, selectedEl);
+    });
 
     // 左に移動
     slideToLeft.addEventListener('click', () => {
-      const lenght = selectedEl.options.length;
+      sliedItem(selectedEl, noneSelectEl);
+    });
 
-      // セレクトされたオプションを配列にいれる
+    allSlideToLeft.addEventListener('click', () => {
+      allSlideItem(selectedEl, noneSelectEl);
+    });
+
+    const sliedItem = (fromEl, toEl) => {
+      const lenght = fromEl.options.length;
       for (let i = 0; i < lenght; i++) {
-        const item = selectedEl.options[i];
-        if (selectedEl.options[i].selected === true) {
+        const item = fromEl.options[i];
+        if (fromEl.options[i].selected === true) {
           items.push(item);
           console.log(item);
-          selectedEl.options[i].selected = false;
+          fromEl.options[i].selected = false;
         }
       }
 
       items.map((item) => {
-        noneSelectEl.appendChild(item);
+        toEl.appendChild(item);
       });
       items = [];
-    });
+    };
 
+    const allSlideItem = (fromEl, toEl) => {
+      const lenght = fromEl.options.length;
+      for (let i = 0; i < lenght; i++) {
+        const item = fromEl.options[i];
+        items.push(item);
+        console.log(item);
+        fromEl.options[i].selected = false;
+      }
 
+      items.map((item) => {
+        toEl.appendChild(item);
+      });
+      items = [];
+    };
 
     // jQueryと違い要素一つ一つにイベントをセットしたり、値を変更したりしなければなりません
 
