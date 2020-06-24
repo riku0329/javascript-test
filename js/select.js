@@ -8,9 +8,10 @@ document.addEventListener(
 
     const selectedEl = document.getElementById('selected-items');
     const slideToLeft = document.querySelector('.js-item-to-left');
+    
     let items = [];
 
-
+    // 右に移動
     slideToRight.addEventListener('click', () => {
       const lenght = noneSelectEl.options.length;
 
@@ -23,8 +24,6 @@ document.addEventListener(
           noneSelectEl.options[i].selected = false;
         }
       }
-
-      // 右に移動
       items.map((item) => {
         selectedEl.appendChild(item);
       });
@@ -32,6 +31,7 @@ document.addEventListener(
     });
 
 
+    // 左に移動
     slideToLeft.addEventListener('click', () => {
       const lenght = selectedEl.options.length;
 
@@ -45,7 +45,6 @@ document.addEventListener(
         }
       }
 
-      // 右に移動
       items.map((item) => {
         noneSelectEl.appendChild(item);
       });
