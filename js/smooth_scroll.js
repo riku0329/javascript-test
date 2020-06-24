@@ -5,17 +5,15 @@ document.addEventListener(
     // 「window.scroll」を使ってスクロールさせましょう
     const scrollTriggers = document.querySelectorAll('a[href^="#"]');
     scrollTriggers.forEach((trigger) => {
-      trigger.addEventListener('click', (e) => {
+      trigger.addEventListener('click', () => {
         const href = trigger.getAttribute('href');
         const currentPos = window.pageYOffset;
         const targetEl = document.getElementById(href.replace('#', ''));
-        // console.log(href);
-        // console.log(targetEl);
-        // console.log(currentPos);
+
         if (targetEl) {
           e.preventDefault();
           const targetPos =
-            window.pageYOffset + targetEl.getBoundingClientRect().top - 70;
+            currentPos + targetEl.getBoundingClientRect().top - 70;
           console.log(targetPos);
           window.scroll({
             top: targetPos,
