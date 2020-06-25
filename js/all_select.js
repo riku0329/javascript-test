@@ -6,13 +6,14 @@ document.addEventListener(
     const checkEl = document.querySelectorAll('.js-check');
     const selectedItemsEl = document.getElementById('selected-items');
 
-    // スプレッド構文に慣れるため
+    // スプレッド構文に慣れるためスプレッド構文で配列作成
     const checkBox = [...checkEl];
 
     // 要素のクローンを作成
     const createClone = (element) =>
       element.parentElement.querySelector('span').cloneNode(true);
 
+    // クローン要素をいれる変数
     let items = [];
 
     // 全選択をクリックしたときのイベントをセットします
@@ -52,16 +53,16 @@ document.addEventListener(
           allCheck.checked = false;
         }
 
-        // spanのコピー
+        // spanのコピーを作成
         const child = createClone(item);
 
-        // 選択されたアイテム一覧に追加
+        // 選択されたアイテムを一覧に追加
         if (item.checked === true) {
           items.push(child);
           updateDOM();
         }
 
-        // 選択されたアイテム一覧に削除
+        // 選択されたアイテムを一覧から削除
         if (item.checked === false) {
           items = items.filter(
             (item) => item.textContent !== child.textContent
