@@ -4,22 +4,35 @@ document.addEventListener(
   function () {
     // 「window.scroll」を使ってスクロールさせましょう
     const scrollTriggers = document.querySelectorAll('a[href^="#"]');
+
+    // clickイベント
     scrollTriggers.forEach((trigger) => {
       trigger.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        // 要素の取得
         const href = trigger.getAttribute('href');
-        const currentPos = window.pageYOffset;
         const targetEl = document.getElementById(href.replace('#', ''));
 
-        if (targetEl) {
-          e.preventDefault();
-          const targetPos =
-            currentPos + targetEl.getBoundingClientRect().top - 70;
-          console.log(targetPos);
-          window.scroll({
-            top: targetPos,
-            behavior: 'smooth',
-          });
-        }
+        // positonの取得
+        const currentPos = window.pageYOffset;
+        const headerPos = document.querySelector('header').offsetHeight;
+        const defaultFontSize = parseInt(
+          window.getComputedStyle(document.body).fontSize,
+          10
+        );
+        const offset = headerPos + defaultFontSize;
+        const targetTop = targetEl.getBoundingClientRect().top;
+        
+        // ターゲットがなければ0
+        const targetPos = targetEl
+          ? currentPos + targetTop - offset
+          : 0;
+
+        window.scroll({
+          top: targetPos,
+          behavior: 'smooth',
+        });
       });
     });
     // jQueryと違い要素一つ一つにイベントをセットしたり、値を変更したりしなければなりません

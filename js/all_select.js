@@ -5,44 +5,78 @@ document.addEventListener(
     const allCheck = document.getElementById('select-all');
     const checkEl = document.querySelectorAll('.js-check');
     const selectedItemsEl = document.getElementById('selected-items');
-    console.log(checkEl);
 
-    // 要素のコピー
-    const appendItem = (child) => {
-      const item = child.parentElement.querySelector('span').cloneNode(true);
-      console.log(child);
-      selectedItemsEl.appendChild(item);
-    };
+    // スプレッド構文に慣れるため
+    const checkBox = [...checkEl];
+
+    // 要素のクローンを作成
+    const createClone = (element) =>
+      element.parentElement.querySelector('span').cloneNode(true);
+
+    let items = [];
 
     // 全選択をクリックしたときのイベントをセットします
-    allCheck.onchange = () => {
-      if (allCheck.checked === true) {
-        checkEl.forEach((check) => {
-          check.checked = true;
-          appendItem(check);
-        });
-      } else {
-        checkEl.forEach((check) => (check.checked = false));
-      }
-    };
+    allCheck.addEventListener('click', () => {
+      checkBox.map((item) => {
+        if (allCheck.checked === true) {
+          const child = createClone(item);
+          item.checked = true;
+          items.push(child);
+          updateDOM();
+        } else {
+          item.checked = false;
+          items = [];
+          updateDOM();
+        }
+      });
+    });
 
     // 各アイテムをクリックしたときのイベントをセットします
-    checkEl.forEach((check) =>
-      check.addEventListener('click', () => {
-        const checkedEl = document.querySelectorAll(
+    checkBox.map((item) =>
+      item.addEventListener('click', () => {
+        // 現在チェックされているエレメントを取得
+        const currentChecked = document.querySelectorAll(
           '.js-check[type="checkbox"]:checked'
         );
-        if (checkEl.length === checkedEl.length) {
+
+        // 中間状態かチェック
+        currentChecked.length > 0
+          ? (allCheck.indeterminate = true)
+          : (allCheck.indeterminate = false);
+
+        // 全選択かチェック
+        if (checkEl.length === currentChecked.length) {
           allCheck.checked = true;
+          allCheck.indeterminate = false;
         } else {
           allCheck.checked = false;
         }
 
-        if (check.checked === true) {
-          appendItem(check);
+        // spanのコピー
+        const child = createClone(item);
+
+        // 選択されたアイテム一覧に追加
+        if (item.checked === true) {
+          items.push(child);
+          updateDOM();
+        }
+
+        // 選択されたアイテム一覧に削除
+        if (item.checked === false) {
+          items = items.filter(
+            (item) => item.textContent !== child.textContent
+          );
+          updateDOM();
         }
       })
     );
+
+    // DOMの更新
+    const updateDOM = () => {
+      // 他にもっと良いHTMLの書き換えがあるかもしれません
+      selectedItemsEl.innerHTML = '';
+      items.forEach((item) => selectedItemsEl.appendChild(item));
+    };
   },
   false
 );

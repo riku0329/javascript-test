@@ -4,14 +4,12 @@ document.addEventListener(
   () => {
     // 取得した要素を配列に一旦変換して処理を行った方が楽にできます
     const noneSelectEl = document.getElementById('none-selected-items');
+    const selectedEl = document.getElementById('selected-items');
+
     const slideToRight = document.querySelector('.js-item-to-right');
     const allSlideToRight = document.querySelector('.js-item-to-right-all');
-
-    const selectedEl = document.getElementById('selected-items');
     const slideToLeft = document.querySelector('.js-item-to-left');
     const allSlideToLeft = document.querySelector('.js-item-to-left-all');
-
-    let items = [];
 
     // 右に移動
     slideToRight.addEventListener('click', () => {
@@ -32,35 +30,28 @@ document.addEventListener(
     });
 
     const sliedItem = (fromEl, toEl) => {
-      const lenght = fromEl.options.length;
-      for (let i = 0; i < lenght; i++) {
-        const item = fromEl.options[i];
-        if (fromEl.options[i].selected === true) {
-          items.push(item);
-          console.log(item);
-          fromEl.options[i].selected = false;
-        }
-      }
 
-      items.map((item) => {
+      // nodeListから配列に変換
+      const options = Array.from(fromEl.querySelectorAll('option'));
+
+      //選択されたオプションを変数にいれる
+      const filterOptions = options.filter((otption) => otption.selected === true);
+
+      // 要素を移動させる
+      filterOptions.forEach((item) => {
         toEl.appendChild(item);
       });
-      items = [];
+
+      // optionの選択解除
+      options.map((option) => (option.selected = false));
     };
 
     const allSlideItem = (fromEl, toEl) => {
-      const lenght = fromEl.options.length;
-      for (let i = 0; i < lenght; i++) {
-        const item = fromEl.options[i];
-        items.push(item);
-        console.log(item);
-        fromEl.options[i].selected = false;
-      }
-
-      items.map((item) => {
-        toEl.appendChild(item);
+      const options = Array.from(fromEl.querySelectorAll('option'));
+      options.forEach((option) => {
+        toEl.appendChild(option);
       });
-      items = [];
+      options.map((option) => (option.selected = false));
     };
 
     // jQueryと違い要素一つ一つにイベントをセットしたり、値を変更したりしなければなりません
