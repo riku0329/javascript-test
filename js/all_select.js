@@ -18,18 +18,25 @@ document.addEventListener(
 
     // 全選択をクリックしたときのイベントをセットします
     allCheck.addEventListener('click', () => {
-      checkBox.map((item) => {
-        if (allCheck.checked === true) {
+      if (allCheck.checked === true) {
+        const filterChecked = [
+          ...document.querySelectorAll(
+            '.js-check[type="checkbox"]:not(:checked)'
+          ),
+        ];
+        filterChecked.map((item) => {
           const child = createClone(item);
           item.checked = true;
           items.push(child);
-          updateDOM();
-        } else {
+        });
+        updateDOM();
+      } else {
+        checkBox.map((item) => {
           item.checked = false;
-          items = [];
-          updateDOM();
-        }
-      });
+        });
+        items = [];
+        updateDOM();
+      }
     });
 
     // 各アイテムをクリックしたときのイベントをセットします

@@ -14,7 +14,7 @@ document.addEventListener(
         const href = trigger.getAttribute('href');
         const targetEl = document.getElementById(href.replace('#', ''));
 
-        // positonの取得
+        // heightの取得
         const currentPos = window.pageYOffset;
         const headerPos = document.querySelector('header').offsetHeight;
         const defaultFontSize = parseInt(
@@ -23,7 +23,7 @@ document.addEventListener(
         );
         const offset = headerPos + defaultFontSize;
         const targetTop = targetEl.getBoundingClientRect().top;
-        
+
         // ターゲットがなければ0
         const targetPos = targetEl
           ? currentPos + targetTop - offset
