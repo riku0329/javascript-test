@@ -19,12 +19,12 @@ document.addEventListener(
     // 全選択をクリックしたときのイベントをセットします
     allCheck.addEventListener('click', () => {
       if (allCheck.checked === true) {
-        const filterChecked = [
+        const filterNotChecked = [
           ...document.querySelectorAll(
             '.js-check[type="checkbox"]:not(:checked)'
           ),
         ];
-        filterChecked.map((item) => {
+        filterNotChecked.map((item) => {
           const child = createClone(item);
           item.checked = true;
           items.push(child);
